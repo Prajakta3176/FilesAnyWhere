@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 const Signup = () => {
@@ -16,11 +16,27 @@ const Signup = () => {
         }))
     }
 
+    const navigate = useNavigate();
+
     const handleSubmit = async(e)=>{
         e.preventDefault();
+        if(formData.password.length < 7 ){
+            return alert("Password must be of 7 characters.")
+        }
+        if(formData.username=== "" || formData.email === "" || formData.password === ""){
+            return alert("All fields are required");
+        }
         console.log(formData);
-        const fetch = await axios.post("http://localhost:2000/api/user/signup",formData);
-        console.log(fetch.data);
+        try{
+            const fetch = await axios.post("http://localhost:2000/api/user/signup",formData);
+            console.log(fetch.data);
+            alert(fetch.data.message);
+            navigate("/signin")
+        }catch(err){
+            alert(err?.response?.data?.message);
+            console.log(err);
+
+        }
     }
 
   return (

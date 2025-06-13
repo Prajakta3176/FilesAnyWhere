@@ -27,8 +27,10 @@ const SignIn = () => {
          localStorage.setItem("id",res.data.id);
          localStorage.setItem("token", res.data.token);
          localStorage.setItem("isLoggedIn",true);
+        alert("Sign In successfully")
          navigate("/upload");
        }catch(err){
+        alert(err?.response?.data?.message);
         console.log(err);
        }
     }

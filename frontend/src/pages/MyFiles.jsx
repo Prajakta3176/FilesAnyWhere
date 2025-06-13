@@ -10,7 +10,7 @@ const MyFiles = () => {
 
   const fetch = async ()=>{
     const res = await   axios.get("http://localhost:2000/api/file/get-all-files",{headers});
-    console.log(res.data);
+    console.log(res.data.data);
     setData(res.data.data);
   }
   useEffect(()=>{
@@ -26,8 +26,8 @@ const MyFiles = () => {
     <div className='flex flex-col gap-6 justify-center items-center'>
       <h1 className='text-2xl font-bold text-blue-500'>Uploaded Files</h1>
       <div className='flex flex-col gap-3'>
-          { data && 
-            data?.map((item,i)=>(
+          { !data?.length == 0 ?
+            data.map((item,i)=>(
               <div key={i} className="bg-white p-4 shadow-md rounded flex md:flex-row flex-col gap-3 justify-between items-center">
                   <span className="font-medium text-gray-800">{item.filename}</span>
                   <div className='flex md:gap-4'>
@@ -47,7 +47,15 @@ const MyFiles = () => {
                       </button>
                   </div>
             </div>
-            ))
+            )) :
+             <div className="flex flex-col items-center justify-center mt-10 text-gray-600">
+                <img
+                  src="https://image.shutterstock.com/image-vector/no-data-result-not-found-260nw-2135601359.jpg"
+                  alt="Empty Folder"
+                  className="w-40 h-40 opacity-70"
+                />
+                <p className="text-lg mt-4 font-medium">No files uploaded yet</p>
+              </div>
           }
       </div>
     </div>
